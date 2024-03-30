@@ -1,0 +1,17 @@
+{
+  "manifest_version": 2,
+  "name": "Lean YouTube",
+  "version": "0.1",
+
+  "description": "Hide 'Shorts' and 'Community' sections from YouTube.",
+
+  "background": {
+    "scripts": ["lean-youtube.js"],
+    "persistent": false,
+    "type": "module"
+  },  
+  "permissions": [
+    "webRequest",
+    "https://www.youtube.com/youtubei/v1/*"
+  ]
+}
