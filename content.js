@@ -34,7 +34,7 @@ function main(url) {
         shorts_sidebar.remove();
 
     let videos = getElementsByXpath('//*[self::ytd-rich-item-renderer or self::ytd-compact-video-renderer]');
-    console.log(videos);
+    // console.log(videos);
     for (var i = 0; i < videos.snapshotLength; i++) {
         var element = videos.snapshotItem(i);
         let time = getElementsByXpath('.//span[contains(@class,"time-status")]/text()', element, XPathResult.STRING_TYPE).stringValue;
@@ -64,7 +64,8 @@ function main(url) {
     }
 }
 
-browser.webRequest.onCompleted.addListener((url) => { main(url) }, {
-    urls: ["https://www.youtube.com/youtubei/v1/browse*"],
+browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
+    console.log(message);
+    main();
+    return true
 });
-
