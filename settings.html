@@ -1,0 +1,20 @@
+<div>
+    <h1>Settings</h1>
+    <ul>
+        <li>
+            <input type="range" id="min_duration" name="min_duration" value="61" min="0" max="300" />
+            <output id="min_duration_output">61</output><label for="min_duration"> - Min duration (seconds)</label>
+        </li>
+        <li>
+            <input type="range" id="max_duration" name="max_duration" value="36000" min="300" max="36000" />
+            <output id="max_duration_output">36000</output><label for="max_duration"> - Max duration</label>
+        </li>
+        <li><input type="checkbox" id="hide_shorts" name="hide_shorts" checked />
+            <label for="hide_shorts">Hide shorts</label>
+        </li>
+        <li><input type="checkbox" id="hide_community" name="hide_community" checked />
+            <label for="hide_community">Hide community</label>
+        </li>
+    </ul>
+    <script src="settings.js"></script>
+</div>
