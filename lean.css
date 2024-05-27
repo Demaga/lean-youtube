@@ -1,5 +1,5 @@
 ytd-guide-section-renderer:nth-child(n+2), 
-iron-selector>yt-chip-cloud-chip-renderer:nth-child(n+6),
+iron-selector>yt-chip-cloud-chip-renderer:nth-child(n+3),
 ytd-rich-shelf-renderer,
 ytd-reel-shelf-renderer,
 ytd-rich-section-renderer>div>ytd-brand-video-singleton-renderer,
@@ -9,6 +9,7 @@ ytd-guide-collapsible-section-entry-renderer>div#section-items>ytd-guide-downloa
 ytd-guide-collapsible-section-entry-renderer>div#section-items>ytd-guide-collapsible-entry-renderer,
 ytd-guide-renderer#guide-renderer>div#sections>ytd-guide-section-renderer>div#items>ytd-guide-entry-renderer:nth-child(2),
 ytd-guide-renderer#guide-renderer>div#sections>ytd-guide-section-renderer>div#items>ytd-guide-entry-renderer:nth-child(4),
+.ytd-mini-guide-renderer>ytd-mini-guide-entry-renderer:nth-child(2),
 div#footer
 {
     display: none;
