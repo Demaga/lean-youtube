@@ -61,7 +61,7 @@ let max_duration_output = document.getElementById("max_duration_output");
 browser.storage.local.get("max_duration").then((max_duration_val) => {
     console.log(max_duration_val);
     if (!max_duration_val == false) {
-        browser.storage.local.set({ "max_duration": 36000 });
+        browser.storage.local.set({ "max_duration": 3600 });
     };
     max_duration.value = max_duration_val.max_duration;
     max_duration_output.innerHTML = max_duration_val.max_duration;
