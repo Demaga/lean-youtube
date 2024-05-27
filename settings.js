@@ -1,3 +1,17 @@
+let hide_livestream = document.getElementById("hide_livestream");
+browser.storage.local.get("hide_livestream").then((hide_livestream_val) => {
+    console.log(hide_livestream_val);
+    if (!hide_livestream_val == false) {
+        browser.storage.local.set({ "hide_livestream": true })
+    };
+    hide_livestream.checked = hide_livestream_val.hide_livestream;
+})
+hide_livestream.addEventListener("change", function () {
+    browser.storage.local.set({ "hide_livestream": this.checked }).then(() => {
+        console.log("hide_livestream set to", this.checked);
+    })
+});
+
 let hide_shorts = document.getElementById("hide_shorts");
 browser.storage.local.get("hide_shorts").then((hide_shorts_val) => {
     console.log(hide_shorts_val);

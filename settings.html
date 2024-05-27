@@ -1,12 +1,20 @@
+<style>
+    div{
+        background-color:red;   
+        padding: 0;
+        margin:0;
+    }     
+</style>
 <div>
-    <h1>Settings</h1>
+    
+    <h1>Lean YouTube Settings</h1>
     <ul>
         <li>
-            <input type="range" id="min_duration" name="min_duration" value="61" min="0" max="300" />
+            <input type="number" step="10" id="min_duration" name="min_duration" value="60" min="0" max="300" />
             <output id="min_duration_output">61</output><label for="min_duration"> - Min duration (seconds)</label>
         </li>
         <li>
-            <input type="range" id="max_duration" name="max_duration" value="36000" min="300" max="36000" />
+            <input type="number" step="10" id="max_ uration" name="max_duration" value="36000" min="300" max="36000" />
             <output id="max_duration_output">36000</output><label for="max_duration"> - Max duration</label>
         </li>
         <li><input type="checkbox" id="hide_shorts" name="hide_shorts" checked />
@@ -14,6 +22,9 @@
         </li>
         <li><input type="checkbox" id="hide_community" name="hide_community" checked />
             <label for="hide_community">Hide community</label>
+        </li>
+        <li><input type="checkbox" id="hide_livestream" name="hide_livestream" checked />
+            <label for="hide_livestream">Hide Livestream</label>
         </li>
         <li>
             <a href="https://forms.gle/7xmpm6DAt5ANdDwK6" id="leave_feedback" name="leave_feedback">Leave feedback</a>
