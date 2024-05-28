@@ -1,3 +1,34 @@
+const permissionsToRequest = {
+    origins: ["*://*.youtube.com/*"]
+  }
+  
+async function requestPermissions() {
+    function onResponse(response) {
+      if (response) {
+        console.log("Permission was granted");
+      } else {
+        console.log("Permission was refused");
+      }
+  
+      return browser.permissions.getAll();
+    }
+  
+    const response = await browser.permissions.request(permissionsToRequest);
+    const currentPermissions = await onResponse(response);
+  
+    console.log(`Current permissions:`, currentPermissions);
+}
+
+
+
+give.addEventListener("change", function () {
+    if(this.checked){
+        console.log(`give permisions`);
+        requestPermissions()
+    }
+});
+
+
 let hide_livestream = document.getElementById("hide_livestream");
 browser.storage.local.get("hide_livestream").then((hide_livestream_val) => {
     console.log(hide_livestream_val);
