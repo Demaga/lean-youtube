@@ -1,16 +1,27 @@
-const permissionsToRequest = {
-    origins: ["*://*.youtube.com/*"]
+async function checkPermissions() {
+    function getPermissions() {
+        return browser.permissions.getAll();
+      }
+    const currentPermissions = await getPermissions();
+    if(!currentPermissions.origins.includes("*://*.youtube.com/*")){
+        document.getElementById("give_permission").style.display = "block";
+    }
 }
+checkPermissions();
+
+
   
 async function requestPermissions() {
-    await browser.permissions.request(permissionsToRequest);
+    await browser.permissions.request({
+        origins: ["*://*.youtube.com/*"]
+    });
 }
 
 let give_permission_btn = document.getElementById("give_permission_btn");
 give_permission_btn.addEventListener("click", function () {
     requestPermissions()
     window.close()
-    document.getElementById("give_permission").style.display = "none";
+    //document.getElementById("give_permission").style.display = "none";
 });
 
 
