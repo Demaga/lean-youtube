@@ -1,31 +1,16 @@
 const permissionsToRequest = {
     origins: ["*://*.youtube.com/*"]
-  }
+}
   
 async function requestPermissions() {
-    function onResponse(response) {
-      if (response) {
-        console.log("Permission was granted");
-      } else {
-        console.log("Permission was refused");
-      }
-  
-      return browser.permissions.getAll();
-    }
-  
-    const response = await browser.permissions.request(permissionsToRequest);
-    const currentPermissions = await onResponse(response);
-  
-    console.log(`Current permissions:`, currentPermissions);
+    await browser.permissions.request(permissionsToRequest);
 }
 
-
-
-give.addEventListener("change", function () {
-    if(this.checked){
-        console.log(`give permisions`);
-        requestPermissions()
-    }
+let give_permission_btn = document.getElementById("give_permission_btn");
+give_permission_btn.addEventListener("click", function () {
+    requestPermissions()
+    window.close()
+    document.getElementById("give_permission").style.display = "none";
 });
 
 
