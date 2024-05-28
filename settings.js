@@ -1,3 +1,5 @@
+console.log(browser.storage.local)
+
 async function checkPermissions() {
     function getPermissions() {
         return browser.permissions.getAll();
@@ -9,8 +11,6 @@ async function checkPermissions() {
 }
 checkPermissions();
 
-
-  
 async function requestPermissions() {
     await browser.permissions.request({
         origins: ["*://*.youtube.com/*"]
@@ -25,46 +25,50 @@ give_permission_btn.addEventListener("click", function () {
 });
 
 
-let hide_livestream = document.getElementById("hide_livestream");
-browser.storage.local.get("hide_livestream").then((hide_livestream_val) => {
-    console.log(hide_livestream_val);
-    if (!hide_livestream_val == false) {
-        browser.storage.local.set({ "hide_livestream": true })
-    };
-    hide_livestream.checked = hide_livestream_val.hide_livestream;
-})
-hide_livestream.addEventListener("change", function () {
-    browser.storage.local.set({ "hide_livestream": this.checked }).then(() => {
-        console.log("hide_livestream set to", this.checked);
-    })
-});
 
-let hide_shorts = document.getElementById("hide_shorts");
-browser.storage.local.get("hide_shorts").then((hide_shorts_val) => {
-    console.log(hide_shorts_val);
-    if (!hide_shorts_val == false) {
-        browser.storage.local.set({ "hide_shorts": true })
-    };
-    hide_shorts.checked = hide_shorts_val.hide_shorts;
-})
+
+const hide_shorts = document.getElementById("hide_shorts");
+const hide_shorts_from_storage = window.localStorage.getItem("hide_shorts")
+
+if (hide_shorts_from_storage == undefined) {
+    window.localStorage.setItem("hide_shorts", true)
+    
+}else{
+    hide_shorts.checked = hide_shorts_from_storage
+};
+
 hide_shorts.addEventListener("change", function () {
-    browser.storage.local.set({ "hide_shorts": this.checked }).then(() => {
-        console.log("hide_shorts set to", this.checked);
-    })
+    window.localStorage.setItem("hide_shorts", this.checked)
 });
 
-let hide_community = document.getElementById("hide_community");
-browser.storage.local.get("hide_community").then((hide_community_val) => {
-    if (!hide_community_val == false) {
-        browser.storage.local.set({ "hide_community": true })
-    };
-    hide_community.checked = hide_community_val.hide_community;
-})
+const hide_community = document.getElementById("hide_community");
+const hide_community_from_storage = window.localStorage.getItem("hide_community")
+
+if (hide_community_from_storage == undefined) {
+    window.localStorage.setItem("hide_community", true)
+    
+}else{
+    hide_community.checked = hide_community_from_storage
+};
+
 hide_community.addEventListener("change", function () {
-    browser.storage.local.set({ "hide_community": this.checked }).then(() => {
-        console.log("hide_community set to", this.checked);
-    })
+    window.localStorage.setItem("hide_community", this.checked)
 });
+
+const hide_livestream = document.getElementById("hide_livestream");
+const hide_livestream_from_storage = window.localStorage.getItem("hide_livestream")
+
+if (hide_livestream_from_storage == undefined) {
+    window.localStorage.setItem("hide_livestream", true)
+    
+}else{
+    hide_livestream.checked = hide_livestream_from_storage
+};
+
+hide_livestream.addEventListener("change", function () {
+    window.localStorage.setItem("hide_livestream", this.checked)
+});
+
 
 let min_duration = document.getElementById("min_duration");
 let min_duration_output = document.getElementById("min_duration_output");

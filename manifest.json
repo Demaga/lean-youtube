@@ -21,6 +21,9 @@
       ],
       "css": [
         "lean.css"
+      ],
+      "js":[
+        "content_script.js"
       ]
     }
   ],
