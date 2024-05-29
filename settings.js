@@ -26,47 +26,49 @@ give_permission_btn.addEventListener("click", function () {
 
 
 
+let hide_shorts = document.getElementById("hide_shorts");
 
-const hide_shorts = document.getElementById("hide_shorts");
-const hide_shorts_from_storage = window.localStorage.getItem("hide_shorts")
-
-if (hide_shorts_from_storage == undefined) {
-    window.localStorage.setItem("hide_shorts", true)
-    
-}else{
-    hide_shorts.checked = hide_shorts_from_storage
-};
-
+browser.storage.local.get("hide_shorts").then((hide_shorts_val) => {
+    console.log(hide_shorts_val);
+    if (hide_shorts_val == true) {
+        browser.storage.local.set({ "hide_shorts": true })
+    };
+    hide_shorts.checked = hide_shorts_val.hide_shorts;
+})
 hide_shorts.addEventListener("change", function () {
-    window.localStorage.setItem("hide_shorts", this.checked)
+    browser.storage.local.set({ "hide_shorts": this.checked }).then(() => {
+        console.log("hide_shorts set to", this.checked);
+    })
 });
 
-const hide_community = document.getElementById("hide_community");
-const hide_community_from_storage = window.localStorage.getItem("hide_community")
+let hide_community = document.getElementById("hide_community");
 
-if (hide_community_from_storage == undefined) {
-    window.localStorage.setItem("hide_community", true)
-    
-}else{
-    hide_community.checked = hide_community_from_storage
-};
-
+browser.storage.local.get("hide_community").then((hide_community_val) => {
+    console.log(hide_community_val);
+    if (hide_community_val == true) {
+        browser.storage.local.set({ "hide_community": true })
+    };
+    hide_community.checked = hide_community_val.hide_community;
+})
 hide_community.addEventListener("change", function () {
-    window.localStorage.setItem("hide_community", this.checked)
+    browser.storage.local.set({ "hide_community": this.checked }).then(() => {
+        console.log("hide_community set to", this.checked);
+    })
 });
 
-const hide_livestream = document.getElementById("hide_livestream");
-const hide_livestream_from_storage = window.localStorage.getItem("hide_livestream")
+let hide_livestream = document.getElementById("hide_livestream");
 
-if (hide_livestream_from_storage == undefined) {
-    window.localStorage.setItem("hide_livestream", true)
-    
-}else{
-    hide_livestream.checked = hide_livestream_from_storage
-};
-
+browser.storage.local.get("hide_livestream").then((hide_livestream_val) => {
+    console.log(hide_livestream_val);
+    if (hide_livestream_val == true) {
+        browser.storage.local.set({ "hide_livestream": true })
+    };
+    hide_livestream.checked = hide_livestream_val.hide_livestream;
+})
 hide_livestream.addEventListener("change", function () {
-    window.localStorage.setItem("hide_livestream", this.checked)
+    browser.storage.local.set({ "hide_livestream": this.checked }).then(() => {
+        console.log("hide_livestream set to", this.checked);
+    })
 });
 
 
@@ -75,10 +77,13 @@ let min_duration_output = document.getElementById("min_duration_output");
 browser.storage.local.get("min_duration").then((min_duration_val) => {
     console.log(min_duration_val);
     if (!min_duration_val == false) {
+        console.log("minoaisjdoiajsdpis")
         browser.storage.local.set({ "min_duration": 60 });
+    }else{
+        min_duration.value = min_duration_val.min_duration;
+        min_duration_output.innerHTML = min_duration_val.min_duration;
     };
-    min_duration.value = min_duration_val.min_duration;
-    min_duration_output.innerHTML = min_duration_val.min_duration;
+    
 })
 min_duration.addEventListener("input", function () {
     if(this.value<60 || this.value>600){
@@ -107,9 +112,11 @@ browser.storage.local.get("max_duration").then((max_duration_val) => {
     console.log(max_duration_val);
     if (!max_duration_val == false) {
         browser.storage.local.set({ "max_duration": 3600 });
+    }else{
+        max_duration.value = max_duration_val.max_duration;
+        max_duration_output.innerHTML = max_duration_val.max_duration;
     };
-    max_duration.value = max_duration_val.max_duration;
-    max_duration_output.innerHTML = max_duration_val.max_duration;
+    
 })
 max_duration.addEventListener("input", function () {
     if(this.value<601 || this.value>3600){

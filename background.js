@@ -127,14 +127,3 @@ browser.webRequest.onBeforeRequest.addListener(
     },
     ["blocking"],
 );
-
-browser.storage.local.onChanged.addListener(
-    (e) => {
-        if ("min_duration" in e) {
-            min_duration = parseInt(e.min_duration.newValue);
-        } else if ("max_duration" in e) {
-            max_duration = parseInt(e.max_duration.newValue);
-        }
-        console.log(e);
-    }
-)
