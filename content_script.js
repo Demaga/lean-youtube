@@ -12,12 +12,6 @@ browser.storage.local.onChanged.addListener(
                 break;
             case "hide_livestream" in e:
                 break;
-            case "min_duration" in e:
-                min_duration = parseInt(e.min_duration.newValue);
-                break;
-            case "max_duration" in e:
-                max_duration = parseInt(e.max_duration.newValue);
-                break;
         }
     }
 )
