@@ -1,5 +1,3 @@
-console.log(browser.storage.local)
-
 async function checkPermissions() {
     function getPermissions() {
         return browser.permissions.getAll();
@@ -29,7 +27,6 @@ give_permission_btn.addEventListener("click", function () {
 let hide_shorts = document.getElementById("hide_shorts");
 
 browser.storage.local.get("hide_shorts").then((hide_shorts_val) => {
-    console.log(hide_shorts_val);
     if (hide_shorts_val == true) {
         browser.storage.local.set({ "hide_shorts": true })
     };
@@ -37,14 +34,12 @@ browser.storage.local.get("hide_shorts").then((hide_shorts_val) => {
 })
 hide_shorts.addEventListener("change", function () {
     browser.storage.local.set({ "hide_shorts": this.checked }).then(() => {
-        console.log("hide_shorts set to", this.checked);
     })
 });
 
 let hide_community = document.getElementById("hide_community");
 
 browser.storage.local.get("hide_community").then((hide_community_val) => {
-    console.log(hide_community_val);
     if (hide_community_val == true) {
         browser.storage.local.set({ "hide_community": true })
     };
@@ -52,14 +47,12 @@ browser.storage.local.get("hide_community").then((hide_community_val) => {
 })
 hide_community.addEventListener("change", function () {
     browser.storage.local.set({ "hide_community": this.checked }).then(() => {
-        console.log("hide_community set to", this.checked);
     })
 });
 
 let hide_livestream = document.getElementById("hide_livestream");
 
 browser.storage.local.get("hide_livestream").then((hide_livestream_val) => {
-    console.log(hide_livestream_val);
     if (hide_livestream_val == true) {
         browser.storage.local.set({ "hide_livestream": true })
     };
@@ -67,7 +60,6 @@ browser.storage.local.get("hide_livestream").then((hide_livestream_val) => {
 })
 hide_livestream.addEventListener("change", function () {
     browser.storage.local.set({ "hide_livestream": this.checked }).then(() => {
-        console.log("hide_livestream set to", this.checked);
     })
 });
 
@@ -75,7 +67,6 @@ hide_livestream.addEventListener("change", function () {
 let min_duration = document.getElementById("min_duration");
 let min_duration_output = document.getElementById("min_duration_output");
 browser.storage.local.get("min_duration").then((min_duration_val) => {
-    console.log(min_duration_val);
     if (!!min_duration_val == false) {
         browser.storage.local.set({ "min_duration": 60 });
     }else{
@@ -89,7 +80,6 @@ min_duration.addEventListener("input", function () {
         //mabe make some allert for invalid numbers
     }else(
         browser.storage.local.set({ "min_duration": this.value }).then(() => {
-            console.log("min_duration set to", this.value);
             min_duration_output.innerHTML = this.value;
         })
     )
@@ -108,7 +98,6 @@ min_duration.addEventListener("focusout", function () {
 let max_duration = document.getElementById("max_duration");
 let max_duration_output = document.getElementById("max_duration_output");
 browser.storage.local.get("max_duration").then((max_duration_val) => {
-    console.log(max_duration_val);
     if (!!max_duration_val == false) {
         browser.storage.local.set({ "max_duration": 3600 });
     }else{
@@ -122,7 +111,6 @@ max_duration.addEventListener("input", function () {
         //mabe make some allert for invalid numbers
     }else(
         browser.storage.local.set({ "max_duration": this.value }).then(() => {
-            console.log("max_duration set to", this.value);
             max_duration_output.innerHTML = this.value;
         })
     )
