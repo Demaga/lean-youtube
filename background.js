@@ -1,4 +1,4 @@
-var min_duration = 61;
+var min_duration = 0;
 browser.storage.local.get("min_duration").then((local_obj) => {
     min_duration = parseInt(local_obj.min_duration);
 })
