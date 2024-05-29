@@ -76,8 +76,7 @@ let min_duration = document.getElementById("min_duration");
 let min_duration_output = document.getElementById("min_duration_output");
 browser.storage.local.get("min_duration").then((min_duration_val) => {
     console.log(min_duration_val);
-    if (!min_duration_val == false) {
-        console.log("minoaisjdoiajsdpis")
+    if (!!min_duration_val == false) {
         browser.storage.local.set({ "min_duration": 60 });
     }else{
         min_duration.value = min_duration_val.min_duration;
@@ -110,7 +109,7 @@ let max_duration = document.getElementById("max_duration");
 let max_duration_output = document.getElementById("max_duration_output");
 browser.storage.local.get("max_duration").then((max_duration_val) => {
     console.log(max_duration_val);
-    if (!max_duration_val == false) {
+    if (!!max_duration_val == false) {
         browser.storage.local.set({ "max_duration": 3600 });
     }else{
         max_duration.value = max_duration_val.max_duration;
