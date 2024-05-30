@@ -13,7 +13,10 @@ browser.storage.local.onChanged.addListener(
                     if (ytd_guide_section_renderer) {
                         ytd_guide_section_renderer.style.display = "none"
                     }
-                    document.querySelector("ytd-rich-section-renderer").style.display = "none"
+                    sections = document.querySelectorAll("ytd-rich-section-renderer")
+                    sections.forEach(el => {
+                        el.style.display = "none"
+                    });
                 } else {
                     if (ytd_mini_guide_renderer) {
                         ytd_mini_guide_renderer.style.display = "block"
@@ -21,7 +24,10 @@ browser.storage.local.onChanged.addListener(
                     if (ytd_guide_section_renderer) {
                         ytd_guide_section_renderer.style.display = "block"
                     }
-                    document.querySelector("ytd-rich-section-renderer").style.display = "block"
+                    sections = document.querySelectorAll("ytd-rich-section-renderer")
+                    sections.forEach(el => {
+                        el.style.display = "block"
+                    });
                 };
                 break;
             case "hide_community" in e:
