@@ -1,9 +1,9 @@
 async function checkPermissions() {
     function getPermissions() {
         return browser.permissions.getAll();
-      }
+    }
     const currentPermissions = await getPermissions();
-    if(!currentPermissions.origins.includes("*://*.youtube.com/*")){
+    if (!currentPermissions.origins.includes("*://*.youtube.com/*")) {
         document.getElementById("give_permission").style.display = "block";
     }
 }
@@ -50,53 +50,38 @@ hide_community.addEventListener("change", function () {
     })
 });
 
-let hide_livestream = document.getElementById("hide_livestream");
-
-browser.storage.local.get("hide_livestream").then((hide_livestream_val) => {
-    if (hide_livestream_val == true) {
-        browser.storage.local.set({ "hide_livestream": true })
-    };
-    hide_livestream.checked = hide_livestream_val.hide_livestream;
-})
-hide_livestream.addEventListener("change", function () {
-    browser.storage.local.set({ "hide_livestream": this.checked }).then(() => {
-    })
-});
-
 
 let min_duration = document.getElementById("min_duration");
 browser.storage.local.get("min_duration").then((min_duration_val) => {
     if (!!min_duration_val == false) {
         browser.storage.local.set({ "min_duration": 0 });
-    }else{
+    } else {
         min_duration.value = min_duration_val.min_duration;
     };
-    
+
 })
 min_duration.addEventListener("input", function () {
-    if(this.value<0 || this.value>600){
+    if (this.value < 0 || this.value > 600) {
         //mabe make some allert for invalid numbers
-    }else(
-        browser.storage.local.set({ "min_duration": this.value }).then(() => {
-            min_duration_output.innerHTML = this.value;
-        })
+    } else (
+        browser.storage.local.set({ "min_duration": this.value }).then(() => { })
     )
-    
+
 });
 
 let max_duration = document.getElementById("max_duration");
 browser.storage.local.get("max_duration").then((max_duration_val) => {
     if (!!max_duration_val == false) {
         browser.storage.local.set({ "max_duration": 3600 });
-    }else{
+    } else {
         max_duration.value = max_duration_val.max_duration;
     };
-    
+
 })
 max_duration.addEventListener("input", function () {
-    if(this.value<601 || this.value>3600){
+    if (this.value < 601 || this.value > 3600) {
         //mabe make some allert for invalid numbers
-    }else(
+    } else (
         browser.storage.local.set({ "max_duration": this.value }).then(() => {
             max_duration_output.innerHTML = this.value;
         })
