@@ -1,3 +1,11 @@
+ytd-guide-section-renderer:nth-child(n+2),
+iron-selector>yt-chip-cloud-chip-renderer:nth-child(n+7),
+div#footer
+{
+    display: none;
+}
+
+
 /*
 ytd-guide-section-renderer:nth-child(n+2), 
 iron-selector>yt-chip-cloud-chip-renderer:nth-child(n+3),

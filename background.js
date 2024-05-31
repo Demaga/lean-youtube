@@ -11,7 +11,6 @@ function listener(details) {
     let filter = browser.webRequest.filterResponseData(details.requestId);
     let decoder = new TextDecoder("utf-8");
     let encoder = new TextEncoder();
-    console.log(details);
 
     const data = [];
 
@@ -29,7 +28,6 @@ function listener(details) {
                 str += decoder.decode(data[i], { stream });
             }
         }
-        console.log(str);
         var request_type = "";
         try {
             var obj = JSON.parse(str);
@@ -58,7 +56,6 @@ function listener(details) {
         }
 
         videos = videos.filter((vid) => {
-            console.log(vid);
             let total_seconds = 0;
             let seconds = 0;
             let minutes = 0;
@@ -95,7 +92,7 @@ function listener(details) {
                     minutes = parseInt(time[0]);
                 }
                 total_seconds = seconds + minutes * 60 + hours * 3600;
-                console.log(total_seconds, min_duration, max_duration);
+                //console.log(total_seconds, min_duration, max_duration);
                 return total_seconds >= min_duration && total_seconds <= max_duration;
             }
             else {
