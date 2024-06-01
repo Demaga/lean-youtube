@@ -1,8 +1,16 @@
+var min_duration = 0;
+browser.storage.local.get("min_duration").then((local_obj) => {
+    min_duration = parseInt(local_obj.min_duration);
+})
+var max_duration = 36000;
+browser.storage.local.get("max_duration").then((local_obj) => {
+    max_duration = parseInt(local_obj.max_duration);
+})
+
 function listener(details) {
     let filter = browser.webRequest.filterResponseData(details.requestId);
     let decoder = new TextDecoder("utf-8");
     let encoder = new TextEncoder();
-    console.log(details);
 
     const data = [];
 
@@ -20,7 +28,6 @@ function listener(details) {
                 str += decoder.decode(data[i], { stream });
             }
         }
-        console.log(str);
         var request_type = "";
         try {
             var obj = JSON.parse(str);
@@ -49,19 +56,31 @@ function listener(details) {
         }
 
         videos = videos.filter((vid) => {
-            console.log(vid);
             let total_seconds = 0;
             let seconds = 0;
             let minutes = 0;
             let hours = 0;
-            let type = "continuationItemRenderer" in vid ? "continuation" : "vid";
+            let type = "";
+            if ("richItemRenderer" in vid) {
+                type = "vid";
+            } else if ("continuationItemRenderer" in vid) {
+                type = "continuation";
+            } else {
+                type = "";
+            }
             if (type == "vid") {
                 let renderer_type = "videoRenderer" in vid["richItemRenderer"]["content"] ? "vid" : "radio";
                 if (renderer_type != "vid") {
                     return false
                 }
 
-                let time = vid["richItemRenderer"]["content"]["videoRenderer"]["lengthText"]["simpleText"];
+                let renderer = vid["richItemRenderer"]["content"]["videoRenderer"];
+
+                if (!("lengthText" in renderer)) {
+                    return false
+                }
+
+                let time = renderer["lengthText"]["simpleText"];
                 time = time.trim();
                 time = time.split(":");
                 if (time.length == 3) {
@@ -73,7 +92,7 @@ function listener(details) {
                     minutes = parseInt(time[0]);
                 }
                 total_seconds = seconds + minutes * 60 + hours * 3600;
-                return total_seconds > 75 && total_seconds < 4800;
+                return total_seconds >= min_duration && total_seconds <= max_duration;
             }
             else {
                 return true;
@@ -104,3 +123,12 @@ browser.webRequest.onBeforeRequest.addListener(
     },
     ["blocking"],
 );
+
+browser.storage.local.onChanged.addListener(
+    (e) => {
+        if ("min_duration" in e)
+            min_duration = parseInt(e.min_duration.newValue);
+        else if ("max_duration" in e)
+            max_duration = parseInt(e.max_duration.newValue);
+    }
+)

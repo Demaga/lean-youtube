@@ -1,0 +1,92 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link
+    href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+    rel="stylesheet">
+
+<style>
+    * {
+        padding: 0px;
+        margin: 0px;
+    }
+
+    .popup {
+        width: 380px;
+        padding: 15px;
+        margin: 0;
+
+        font-size: 14px;
+        font-family: "Roboto", sans-serif;
+        font-style: normal;
+    }
+
+    h1 {
+        text-align: center;
+        margin: 10px 0px;
+    }
+
+    ul {
+        display: flex;
+        gap: 5px;
+        flex-direction: column;
+        list-style-type: none;
+    }
+
+    input {
+        padding: 2px 5px;
+    }
+
+    #leave_feedback {
+        align-self: end;
+    }
+
+    .give_permission {
+        background-color: rgb(239, 239, 239);
+        border: 2px solid rgb(223, 223, 223);
+        border-radius: 10px;
+        text-align: center;
+        padding: 10px 20px;
+    }
+
+    #give_permission_btn {
+        font-size: 16px;
+        margin-top: 10px;
+        padding: 2px 5px;
+    }
+
+    #hide_shorts {
+        margin-top: 15px;
+    }
+</style>
+<div class="popup">
+    <div class="give_permission" id="give_permission" style="display: none;">
+        <h3>In order for this extension to work automatically, please give it
+            access to your data on YouTube.
+        </h3>
+        <button id="give_permission_btn" name="give_permission_btn">Give permission</button>
+    </div>
+    <h1>Lean YouTube Settings</h1>
+    <ul>
+        <li>
+            <input type="number" step="10" id="min_duration" name="min_duration" value="0" min="0" max="600" />
+            <label for="min_duration"> - Min duration (seconds)</label>
+        </li>
+        <li>
+            <input type="number" step="10" id="max_duration" name="max_duration" value="3600" min="660" max="36000" />
+            <label for="max_duration"> - Max duration</label>
+        </li>
+        <li>
+            <input type="checkbox" id="hide_shorts" name="hide_shorts" checked />
+            <label for="hide_shorts">Hide shorts</label>
+        </li>
+        <li>
+            <input type="checkbox" id="hide_community" name="hide_community" checked />
+            <label for="hide_community">Hide community</label>
+        </li>
+
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSd3Ob48s9opuXD1E0XmpnsDO6hgI73ADhVNyokK8pzroHAU8g/viewform?usp=sf_link"
+            id="leave_feedback" name="leave_feedback">Leave feedback</a>
+
+    </ul>
+    <script src="settings.js"></script>
+</div>
