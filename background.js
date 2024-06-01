@@ -6,6 +6,10 @@ var max_duration = 36000;
 browser.storage.local.get("max_duration").then((local_obj) => {
     max_duration = parseInt(local_obj.max_duration);
 })
+var hide_shorts = false;
+browser.storage.local.get("hide_shorts").then((local_obj) => {
+    hide_shorts = local_obj.hide_shorts;
+})
 
 function listener(details) {
     let filter = browser.webRequest.filterResponseData(details.requestId);
@@ -50,11 +54,27 @@ function listener(details) {
                 var action_type = "reloadContinuationItemsCommand";
                 request_type = "continuation";
             }
+            else {
+                console.error("Unknown endpoint. Returning response as is.");
+                str = JSON.stringify(obj);
+                filter.write(encoder.encode(str));
+                filter.disconnect();
+                return
+            }
         }
         else {
-            var videos = obj["contents"]["twoColumnBrowseResultsRenderer"]["tabs"][0]["tabRenderer"]["content"]["richGridRenderer"]["contents"];
+            try {
+                var videos = obj["contents"]["twoColumnBrowseResultsRenderer"]["tabs"][0]["tabRenderer"]["content"]["richGridRenderer"]["contents"];
+            } catch (error) {
+                console.error("No videos detected. Probably not a video-related endpoint. Full error:", error);
+                str = JSON.stringify(obj);
+                filter.write(encoder.encode(str));
+                filter.disconnect();
+                return
+            }
         }
 
+        console.log(videos);
         videos = videos.filter((vid) => {
             let total_seconds = 0;
             let seconds = 0;
@@ -65,7 +85,10 @@ function listener(details) {
                 type = "vid";
             } else if ("continuationItemRenderer" in vid) {
                 type = "continuation";
-            } else {
+            } else if ("richSectionRenderer" in vid) {
+                type = "section";
+            }
+            else {
                 type = "";
             }
             if (type == "vid") {
@@ -94,10 +117,40 @@ function listener(details) {
                 total_seconds = seconds + minutes * 60 + hours * 3600;
                 return total_seconds >= min_duration && total_seconds <= max_duration;
             }
+            else if (type == "section") {
+                console.log(vid);
+                console.log(hide_shorts);
+                let renderer = vid["richSectionRenderer"]["content"]
+                if ("richShelfRenderer" in renderer)
+                    renderer = renderer["richShelfRenderer"]
+                else if ("shelfRenderer" in renderer)
+                    renderer = renderer["shelfRenderer"]
+                else {
+                    console.log("Can't understand which element it is. Allowing")
+                    return true
+                }
+                console.log("type section renderer", renderer);
+                if ("icon" in renderer) {
+                    let icon = renderer["icon"]["iconType"]
+                    if (icon.includes("SHORTS") && hide_shorts)
+                        return false
+                }
+                else {
+                    let title = renderer["title"];
+                    if ("simpleText" in title)
+                        title = title["simpleText"]
+                    else
+                        title = title["runs"][0]["text"];
+                    if (title.includes("Shorts") && hide_shorts)
+                        return false
+                }
+                return true
+            }
             else {
                 return true;
             }
         });
+        // console.log(videos);
         if (request_type == "continuation")
             obj["onResponseReceivedActions"][0][action_type]["continuationItems"] = videos;
         else
@@ -126,9 +179,13 @@ browser.webRequest.onBeforeRequest.addListener(
 
 browser.storage.local.onChanged.addListener(
     (e) => {
-        if ("min_duration" in e)
-            min_duration = parseInt(e.min_duration.newValue);
-        else if ("max_duration" in e)
-            max_duration = parseInt(e.max_duration.newValue);
+        switch (e) {
+            case "min_duration":
+                min_duration = parseInt(e.min_duration.newValue);
+            case "max_duration":
+                max_duration = parseInt(e.max_duration.newValue);
+            case "hide_shorts":
+                hide_shorts = e.hide_shorts.newValue;
+        }
     }
 )
