@@ -92,7 +92,6 @@ function listener(details) {
                     minutes = parseInt(time[0]);
                 }
                 total_seconds = seconds + minutes * 60 + hours * 3600;
-                //console.log(total_seconds, min_duration, max_duration);
                 return total_seconds >= min_duration && total_seconds <= max_duration;
             }
             else {

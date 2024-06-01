@@ -19,7 +19,6 @@ let give_permission_btn = document.getElementById("give_permission_btn");
 give_permission_btn.addEventListener("click", function () {
     requestPermissions()
     window.close()
-    //document.getElementById("give_permission").style.display = "none";
 });
 
 
