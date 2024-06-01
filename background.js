@@ -1,8 +1,20 @@
+var min_duration = 0;
+browser.storage.local.get("min_duration").then((local_obj) => {
+    min_duration = parseInt(local_obj.min_duration);
+})
+var max_duration = 36000;
+browser.storage.local.get("max_duration").then((local_obj) => {
+    max_duration = parseInt(local_obj.max_duration);
+})
+var hide_shorts = false;
+browser.storage.local.get("hide_shorts").then((local_obj) => {
+    hide_shorts = local_obj.hide_shorts;
+})
+
 function listener(details) {
     let filter = browser.webRequest.filterResponseData(details.requestId);
     let decoder = new TextDecoder("utf-8");
     let encoder = new TextEncoder();
-    console.log(details);
 
     const data = [];
 
@@ -20,7 +32,6 @@ function listener(details) {
                 str += decoder.decode(data[i], { stream });
             }
         }
-        console.log(str);
         var request_type = "";
         try {
             var obj = JSON.parse(str);
@@ -43,25 +54,56 @@ function listener(details) {
                 var action_type = "reloadContinuationItemsCommand";
                 request_type = "continuation";
             }
+            else {
+                console.error("Unknown endpoint. Returning response as is.");
+                str = JSON.stringify(obj);
+                filter.write(encoder.encode(str));
+                filter.disconnect();
+                return
+            }
         }
         else {
-            var videos = obj["contents"]["twoColumnBrowseResultsRenderer"]["tabs"][0]["tabRenderer"]["content"]["richGridRenderer"]["contents"];
+            try {
+                var videos = obj["contents"]["twoColumnBrowseResultsRenderer"]["tabs"][0]["tabRenderer"]["content"]["richGridRenderer"]["contents"];
+            } catch (error) {
+                console.error("No videos detected. Probably not a video-related endpoint. Full error:", error);
+                str = JSON.stringify(obj);
+                filter.write(encoder.encode(str));
+                filter.disconnect();
+                return
+            }
         }
 
+        console.log(videos);
         videos = videos.filter((vid) => {
-            console.log(vid);
             let total_seconds = 0;
             let seconds = 0;
             let minutes = 0;
             let hours = 0;
-            let type = "continuationItemRenderer" in vid ? "continuation" : "vid";
+            let type = "";
+            if ("richItemRenderer" in vid) {
+                type = "vid";
+            } else if ("continuationItemRenderer" in vid) {
+                type = "continuation";
+            } else if ("richSectionRenderer" in vid) {
+                type = "section";
+            }
+            else {
+                type = "";
+            }
             if (type == "vid") {
                 let renderer_type = "videoRenderer" in vid["richItemRenderer"]["content"] ? "vid" : "radio";
                 if (renderer_type != "vid") {
                     return false
                 }
 
-                let time = vid["richItemRenderer"]["content"]["videoRenderer"]["lengthText"]["simpleText"];
+                let renderer = vid["richItemRenderer"]["content"]["videoRenderer"];
+
+                if (!("lengthText" in renderer)) {
+                    return false
+                }
+
+                let time = renderer["lengthText"]["simpleText"];
                 time = time.trim();
                 time = time.split(":");
                 if (time.length == 3) {
@@ -73,12 +115,42 @@ function listener(details) {
                     minutes = parseInt(time[0]);
                 }
                 total_seconds = seconds + minutes * 60 + hours * 3600;
-                return total_seconds > 75 && total_seconds < 4800;
+                return total_seconds >= min_duration && total_seconds <= max_duration;
+            }
+            else if (type == "section") {
+                console.log(vid);
+                console.log(hide_shorts);
+                let renderer = vid["richSectionRenderer"]["content"]
+                if ("richShelfRenderer" in renderer)
+                    renderer = renderer["richShelfRenderer"]
+                else if ("shelfRenderer" in renderer)
+                    renderer = renderer["shelfRenderer"]
+                else {
+                    console.log("Can't understand which element it is. Allowing")
+                    return true
+                }
+                console.log("type section renderer", renderer);
+                if ("icon" in renderer) {
+                    let icon = renderer["icon"]["iconType"]
+                    if (icon.includes("SHORTS") && hide_shorts)
+                        return false
+                }
+                else {
+                    let title = renderer["title"];
+                    if ("simpleText" in title)
+                        title = title["simpleText"]
+                    else
+                        title = title["runs"][0]["text"];
+                    if (title.includes("Shorts") && hide_shorts)
+                        return false
+                }
+                return true
             }
             else {
                 return true;
             }
         });
+        // console.log(videos);
         if (request_type == "continuation")
             obj["onResponseReceivedActions"][0][action_type]["continuationItems"] = videos;
         else
@@ -104,3 +176,16 @@ browser.webRequest.onBeforeRequest.addListener(
     },
     ["blocking"],
 );
+
+browser.storage.local.onChanged.addListener(
+    (e) => {
+        switch (e) {
+            case "min_duration":
+                min_duration = parseInt(e.min_duration.newValue);
+            case "max_duration":
+                max_duration = parseInt(e.max_duration.newValue);
+            case "hide_shorts":
+                hide_shorts = e.hide_shorts.newValue;
+        }
+    }
+)

@@ -1,14 +1,5 @@
-ytd-guide-section-renderer:nth-child(n+2), 
-iron-selector>yt-chip-cloud-chip-renderer:nth-child(n+6),
-ytd-rich-shelf-renderer,
-ytd-reel-shelf-renderer,
-ytd-guide-collapsible-section-entry-renderer>div#section-items>ytd-guide-entry-renderer:nth-child(1),
-ytd-guide-collapsible-section-entry-renderer>div#section-items>ytd-guide-entry-renderer:nth-child(3),
-ytd-guide-collapsible-section-entry-renderer>div#section-items>ytd-guide-downloads-entry-renderer,
-ytd-guide-collapsible-section-entry-renderer>div#section-items>ytd-guide-collapsible-entry-renderer,
-ytd-guide-renderer#guide-renderer>div#sections>ytd-guide-section-renderer>div#items>ytd-guide-entry-renderer:nth-child(2),
-ytd-guide-renderer#guide-renderer>div#sections>ytd-guide-section-renderer>div#items>ytd-guide-entry-renderer:nth-child(4),
-div#footer
-{
+ytd-guide-section-renderer:nth-child(n+2),
+iron-selector>yt-chip-cloud-chip-renderer:nth-child(n+7),
+div#footer {
     display: none;
 }
