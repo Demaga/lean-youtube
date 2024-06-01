@@ -22,7 +22,7 @@
       "css": [
         "lean.css"
       ],
-      "js":[
+      "js": [
         "content_script.js"
       ]
     }

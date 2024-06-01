@@ -82,9 +82,7 @@ max_duration.addEventListener("input", function () {
     if (this.value < 660 || this.value > 3600) {
         //mabe make some allert for invalid numbers
     } else (
-        browser.storage.local.set({ "max_duration": this.value }).then(() => {
-            max_duration_output.innerHTML = this.value;
-        })
+        browser.storage.local.set({ "max_duration": this.value }).then(() => { })
     )
 
 });
