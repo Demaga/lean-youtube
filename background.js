@@ -1,14 +1,29 @@
 var min_duration = 0;
-browser.storage.local.get("min_duration").then((local_obj) => {
-    min_duration = parseInt(local_obj.min_duration);
+browser.storage.local.get("min_duration").then((min_duration_val) => {
+    if (Object.keys(min_duration_val).length === 0) {
+        browser.storage.local.set({ "min_duration": 0 });
+    } else {
+        min_duration = min_duration_val.min_duration;
+    };
+
 })
 var max_duration = 36000;
-browser.storage.local.get("max_duration").then((local_obj) => {
-    max_duration = parseInt(local_obj.max_duration);
+browser.storage.local.get("max_duration").then((max_duration_val) => {
+    if (Object.keys(max_duration_val).length === 0) {
+        browser.storage.local.set({ "max_duration": 36000 });
+    } else {
+        max_duration = max_duration_val.max_duration;
+    };
+
 })
-var hide_shorts = false;
-browser.storage.local.get("hide_shorts").then((local_obj) => {
-    hide_shorts = local_obj.hide_shorts;
+var hide_shorts = true;
+browser.storage.local.get("hide_shorts").then((hide_shorts_val) => {
+    if (Object.keys(hide_shorts_val).length === 0) {
+        browser.storage.local.set({ "hide_shorts": true });
+    } else {
+        hide_shorts = hide_shorts_val.hide_shorts;
+    };
+
 })
 
 function listener(details) {
@@ -74,7 +89,6 @@ function listener(details) {
             }
         }
 
-        console.log(videos);
         videos = videos.filter((vid) => {
             let total_seconds = 0;
             let seconds = 0;
@@ -118,8 +132,6 @@ function listener(details) {
                 return total_seconds >= min_duration && total_seconds <= max_duration;
             }
             else if (type == "section") {
-                console.log(vid);
-                console.log(hide_shorts);
                 let renderer = vid["richSectionRenderer"]["content"]
                 if ("richShelfRenderer" in renderer)
                     renderer = renderer["richShelfRenderer"]
@@ -129,7 +141,6 @@ function listener(details) {
                     console.log("Can't understand which element it is. Allowing")
                     return true
                 }
-                console.log("type section renderer", renderer);
                 if ("icon" in renderer) {
                     let icon = renderer["icon"]["iconType"]
                     if (icon.includes("SHORTS") && hide_shorts)
@@ -179,13 +190,11 @@ browser.webRequest.onBeforeRequest.addListener(
 
 browser.storage.local.onChanged.addListener(
     (e) => {
-        switch (e) {
-            case "min_duration":
-                min_duration = parseInt(e.min_duration.newValue);
-            case "max_duration":
-                max_duration = parseInt(e.max_duration.newValue);
-            case "hide_shorts":
-                hide_shorts = e.hide_shorts.newValue;
-        }
+        if ("min_duration" in e)
+            min_duration = parseInt(e.min_duration.newValue);
+        else if ("max_duration" in e)
+            max_duration = parseInt(e.max_duration.newValue);
+        else if ("hide_shorts" in e)
+            hide_shorts = e.hide_shorts.newValue;
     }
 )
