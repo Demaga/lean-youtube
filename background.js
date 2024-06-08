@@ -25,6 +25,10 @@ browser.storage.local.get("hide_shorts").then((hide_shorts_val) => {
     };
 
 })
+var hide_shorts = false;
+browser.storage.local.get("hide_shorts").then((local_obj) => {
+    hide_shorts = local_obj.hide_shorts;
+})
 
 function listener(details) {
     let filter = browser.webRequest.filterResponseData(details.requestId);
@@ -89,6 +93,7 @@ function listener(details) {
             }
         }
 
+        console.log(videos);
         videos = videos.filter((vid) => {
             let total_seconds = 0;
             let seconds = 0;
