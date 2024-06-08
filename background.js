@@ -93,7 +93,6 @@ function listener(details) {
             }
         }
 
-        console.log(videos);
         videos = videos.filter((vid) => {
             let total_seconds = 0;
             let seconds = 0;
