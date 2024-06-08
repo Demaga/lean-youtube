@@ -1,4 +1,4 @@
-ytd-guide-section-renderer:nth-child(n+2),
+ytd-guide-section-renderer:nth-child(n+3),
 iron-selector>yt-chip-cloud-chip-renderer:nth-child(n+7),
 div#footer {
     display: none;
