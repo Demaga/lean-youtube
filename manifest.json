@@ -6,7 +6,7 @@
   },
   "manifest_version": 3,
   "name": "Lean YouTube",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Improve YouTube experience: filter video by duration, hide 'Shorts' and 'Community' sections.",
   "action": {
     "default_title": "Lean YouTube",
