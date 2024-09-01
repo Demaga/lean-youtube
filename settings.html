@@ -25,17 +25,16 @@
         margin: 10px 0px;
     }
 
-    ul {
+    ul{
         display: flex;
         gap: 5px;
         flex-direction: column;
         list-style-type: none;
     }
 
-    input {
+    input{
         padding: 2px 5px;
     }
-
     #leave_feedback {
         align-self: end;
     }
@@ -53,10 +52,24 @@
         margin-top: 10px;
         padding: 2px 5px;
     }
+    button{
+        margin: 5px 0;
+        padding: 2px 5px;
+    }
 
     #hide_shorts {
         margin-top: 15px;
     }
+
+    #advanced_settings{
+        display: inline;
+    }
+    #advanced_settings_text{
+        margin: 15px 0 5px 0 ;
+        font-weight: bold;
+        font-size: 16px;
+    }
+
 </style>
 <div class="popup">
     <div class="give_permission" id="give_permission" style="display: none;">
@@ -83,10 +96,41 @@
             <input type="checkbox" id="hide_community" name="hide_community" checked />
             <label for="hide_community">Hide community</label>
         </li>
+    </ul>
+    <div id="advanced_settings">
+        <p id="advanced_settings_text">Advanced settings</p>
+        <ul>
+            <li>
+                <input type="checkbox" id="hide_subscriptions" name="hide_subscriptions"/>
+                <label for="hide_subscriptions">Hide subscriptions</label>
+            </li>
+            <li>
+                <input type="checkbox" id="hide_recommendations" name="hide_recommendations" />
+                <label for="hide_recommendations">Hide recommendations sidebar</label>
+            </li>
+            <li>
+                <input type="checkbox" id="hide_mixes" name="hide_mixes"/>
+                <label for="hide_mixes">Hide mixes</label>
+            </li>
+            <li>
+                <input type="checkbox" id="hide_livestreams" name="hide_livestreams"/>
+                <label for="hide_livestreams">Hide livestreams</label>
+            </li>
+            <li>
+                <button id="disable_enable_all" >disable/enable all</button>
+                
+            </li>
+            <li>
+                <button id="restore_defaults">restore defaults</button>
+            </li>
+        </ul>
+    </div>
+    
+            <button id="advanced_settings_toggle">Show advanced settings</button>
 
         <a href="https://docs.google.com/forms/d/e/1FAIpQLSd3Ob48s9opuXD1E0XmpnsDO6hgI73ADhVNyokK8pzroHAU8g/viewform?usp=sf_link"
             id="leave_feedback" name="leave_feedback">Leave feedback</a>
-
-    </ul>
+ 
+        
     <script src="settings.js"></script>
 </div>
