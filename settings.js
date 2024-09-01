@@ -64,3 +64,106 @@ browser.storage.local.get("max_duration").then((max_duration_val) => {
 max_duration.addEventListener("input", function () {
     browser.storage.local.set({ "max_duration": this.value }).then(() => { })
 });
+
+/*Advanced settings*/
+
+
+
+let hide_subscriptions = document.getElementById("hide_subscriptions");
+
+browser.storage.local.get("hide_subscriptions").then((hide_subscriptions_val) => {
+    hide_subscriptions.checked = hide_subscriptions_val.hide_subscriptions;
+})
+hide_subscriptions.addEventListener("change", function () {
+    browser.storage.local.set({ "hide_subscriptions": this.checked }).then(() => {
+    })
+});
+
+
+let hide_recommendations = document.getElementById("hide_recommendations");
+
+browser.storage.local.get("hide_recommendations").then((hide_recommendations_val) => {
+    hide_recommendations.checked = hide_recommendations_val.hide_recommendations;
+})
+hide_recommendations.addEventListener("change", function () {
+    browser.storage.local.set({ "hide_recommendations": this.checked }).then(() => {
+    })
+});
+
+let hide_mixes = document.getElementById("hide_mixes");
+
+browser.storage.local.get("hide_mixes").then((hide_mixes_val) => {
+    hide_mixes.checked = hide_mixes_val.hide_mixes;
+})
+hide_mixes.addEventListener("change", function () {
+    browser.storage.local.set({ "hide_mixes": this.checked }).then(() => {
+    })
+});
+
+let hide_livestreams = document.getElementById("hide_livestreams");
+
+browser.storage.local.get("hide_livestreams").then((hide_livestreams_val) => {
+    hide_livestreams.checked = hide_livestreams_val.hide_livestreams;
+})
+hide_livestreams.addEventListener("change", function () {
+    browser.storage.local.set({ "hide_livestreams": this.checked }).then(() => {
+    })
+});
+
+
+
+let restore_defaults_btn = document.getElementById("restore_defaults");
+
+restore_defaults_btn.addEventListener("click", restore_defaults);
+
+
+
+function restore_defaults() {
+    console.log("restore_defaults")
+
+    browser.storage.local.set({ 
+        "max_duration": 1800,
+        "min_duration": 61,
+        "hide_shorts": true,
+        "hide_community": true,
+        "hide_subscriptions": false,
+        "hide_recommendations": true,
+        "hide_mixes": true,
+        "hide_livestreams": true
+     }).then(() => { })
+      
+    
+    
+    /*This is just hardcode, should change to set values from local_store*/
+
+
+    max_duration.value = 1800;
+    min_duration.value = 61;
+    hide_shorts.checked = true;
+    hide_community.checked = true;
+    hide_subscriptions.checked = false;
+    hide_recommendations.checked = true;
+    hide_mixes.checked = true;
+    hide_livestreams.checked = true
+ 
+}
+
+
+
+
+let advanced_settings_btn = document.getElementById("advanced_settings_toggle");
+let advanced_settings_list = document.getElementById("advanced_settings");
+console.log(advanced_settings_list)
+let show_advanced_settings_value = false
+
+advanced_settings_btn.addEventListener("click", advanced_settings_toggle);
+
+
+function advanced_settings_toggle(){
+    show_advanced_settings_value = !show_advanced_settings_value
+    if(show_advanced_settings_value){
+        advanced_settings_list.style.display = "none";
+    }else{
+        advanced_settings_list.style.display = "inline";
+    }
+}
